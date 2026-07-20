@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+Document.addEventListener('DOMContentLoaded', () => {
 
     const triggerOverlay = document.getElementById('triggerOverlay');
     const startButton = document.getElementById('startButton');
@@ -137,8 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function spawnFallingPetal() {
-        // تقليل الحد الأقصى للبتلات المتساقطة إلى 5 لمنع الـ Lag على شاشات الموبايل
-        if (fallingPetalsEl.childElementCount > 5) return;
+        if (fallingPetalsEl.childElementCount > 10) return;
 
         const petal = document.createElement('div');
         petal.className = 'falling-petal';
@@ -200,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => startFallingPetals(), 3400);
 
         // حقن الرسالة المخصصة لشهد عند اكتمال تفتح الوردة تماماً
-        
+    
     }
 
     function delay(ms) {
