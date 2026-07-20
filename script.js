@@ -1,4 +1,4 @@
-Document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
 
     const triggerOverlay = document.getElementById('triggerOverlay');
     const startButton = document.getElementById('startButton');
@@ -12,7 +12,6 @@ Document.addEventListener('DOMContentLoaded', () => {
     const leafLeft = document.getElementById('leafLeft');
     const leafRight = document.getElementById('leafRight');
     const endText = document.getElementById('endText');
-    const tagline = document.getElementById('tagline'); // استدعاء عنصر النص المخصص للرسالة
     const fallingPetalsEl = document.getElementById('fallingPetals');
     const scene = document.querySelector('.scene');
 
@@ -37,15 +36,15 @@ Document.addEventListener('DOMContentLoaded', () => {
 
     let fallingPetalInterval = null;
 
-    // تحديث نصوص التحميل لتصبح عربية ومميزة
+
     function startCardLoader() {
         const duration = 2400;
         const steps = [
-            { threshold: 20, text: 'جاري استدعاء حزم المشاعر...' },
-            { threshold: 50, text: 'بناء أوراق رقمية مخملية...' },
-            { threshold: 80, text: 'تنسيق ألوان الوردة النادرة...' },
-            { threshold: 95, text: 'تحسين العرض ثلاثي الأبعاد...' },
-            { threshold: 100, text: 'جاهزة لتفتحيها حبيبتي😁😁' }
+            { threshold: 20, text: 'Loading Love.css...' },
+            { threshold: 50, text: 'Growing digital petals...' },
+            { threshold: 80, text: 'Adding velvet textures...' },
+            { threshold: 95, text: 'Optimizing 3D rendering...' },
+            { threshold: 100, text: 'Ready to bloom!' }
         ];
 
         let startTimestamp = null;
@@ -68,6 +67,7 @@ Document.addEventListener('DOMContentLoaded', () => {
 
         requestAnimationFrame(animateLoader);
     }
+
 
     function createSepals() {
         const step = 360 / SEPALS_COUNT;
@@ -187,6 +187,7 @@ Document.addEventListener('DOMContentLoaded', () => {
         }, 2200);
     }
 
+
     async function startAnimationSequence() {
         await growStem();
         await delay(100);
@@ -198,8 +199,9 @@ Document.addEventListener('DOMContentLoaded', () => {
 
         setTimeout(() => startFallingPetals(), 3400);
 
-        // حقن الرسالة المخصصة لشهد عند اكتمال تفتح الوردة تماماً
-    
+        setTimeout(() => {
+            endText.classList.add('visible');
+        }, 4600);
     }
 
     function delay(ms) {
@@ -213,7 +215,6 @@ Document.addEventListener('DOMContentLoaded', () => {
             startAnimationSequence();
         }, 800);
     });
-
     createSepals();
     createPetals();
 
