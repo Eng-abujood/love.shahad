@@ -137,7 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function spawnFallingPetal() {
-        if (fallingPetalsEl.childElementCount > 10) return;
+        // تقليل الحد الأقصى للبتلات المتساقطة إلى 5 لمنع الـ Lag على شاشات الموبايل
+        if (fallingPetalsEl.childElementCount > 5) return;
 
         const petal = document.createElement('div');
         petal.className = 'falling-petal';
