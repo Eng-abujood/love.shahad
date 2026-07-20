@@ -11,7 +11,7 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    font-family: 'Cairo', 'Inter', sans-serif; /* إضافة خط كايرو لجمالية النص العربي */
+    font-family: 'Cairo', 'Inter', sans-serif; /* إضافة خط كابرو لجمالية النص العربي */
 }
 
 body {
@@ -20,15 +20,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-/* تفعيل تسريع العتاد للهواتف لمنع التقطيش (Fix Lag) */
-.rose-wrapper, .petal, .falling-petal {
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
-    will-change: transform, opacity;
 }
 
 .vignette {
@@ -226,16 +217,15 @@ body {
     opacity: 1;
 }
 
-/* تحسين مساحة الـ Scene لتعطي مساحة كاملة في الأسفل ولا تحجب العناصر */
 .scene {
     perspective: 1200px;
-    perspective-origin: 50% 30%; /* رفع نقطة تركيز الرؤية */
+    perspective-origin: 50% 35%;
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-bottom: 22vh; /* حجز مساحة كافية بالأسفل لمنع تداخل الرسالة */
+    padding-bottom: 6vh;
     z-index: 20;
     transform: scale(0.95);
 }
@@ -506,24 +496,24 @@ body {
     100% { opacity: 0; transform: translateX(var(--s4, 10px)) translateY(108vh) rotate(390deg) rotateY(210deg) scale(0.55); }
 }
 
-/* --- تثبيت حاوية الرسالة بشكل ذكي في الأسفل منعاً للتداخل وعلو الطبقات --- */
+/* --- التعديل المخصص والمطور لحاوية الرسالة أسفل الوردة دون تداخل --- */
 .end-text {
     position: fixed;
-    bottom: 4vh; /* موضع ثابت بناءً على مساحة الشاشة الحقيقية */
+    bottom: 5%;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
-    max-width: 540px;
+    max-width: 580px;
     text-align: center;
     opacity: 0;
     visibility: hidden;
     transition: opacity 2.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 2.5s;
-    z-index: 150; /* رفع قيمة z-index لضمان ظهور النص فوق أي توهج خلفي */
+    z-index: 150;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    pointer-events: auto;
+    gap: 12px;
+    pointer-events: auto; /* للسماح بالتفاعل أو النسخ إن لزم */
 }
 
 .end-text.visible {
@@ -538,15 +528,17 @@ body {
     line-height: 1.8;
     color: #fce4ec;
     text-shadow: 0 2px 8px rgba(244, 143, 177, 0.2);
-    background: rgba(12, 4, 7, 0.82); /* زجاج داكن معتم ومثالي لسهولة القراءة دون تشتيت الخلفية */
-    padding: 16px 22px;
+    background: rgba(18, 5, 10, 0.65); /* زجاج داكن مائل للوردي الخافت ليناسب بيئة الوردة */
+    padding: 18px 24px;
     border-radius: 20px;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 46, 94, 0.2);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 46, 94, 0.15);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
     margin: 0;
-    box-sizing: border-box;
+    letter-spacing: 0; /* إلغاء التباعد الأجنبي ليتناسب مع سلاسة الحرف العربي */
+    text-transform: none;
+    font-style: normal;
 }
 
 .rose-emoji {
@@ -561,50 +553,29 @@ body {
     50% { transform: translateY(-8px); }
 }
 
-/* ========================================================= */
-/*       ⚡ ميديا كويري خارق واحترافي للشاشات الصغيرة والهواتف ⚡   */
-/* ========================================================= */
+/* التجاوب مع الشاشات الصغيرة والهواتف لضمان عدم تداخل النص مع الوردة */
 @media (max-width: 480px) {
-    .scene {
-        padding-bottom: 34vh; /* دفع الوردة للأعلى بقوة لحجز مساحة سفلية ضخمة للرسالة */
-    }
-    
     .rose-wrapper {
-        transform: scale(0.65) rotateX(-22deg) !important; /* تصغير حجم الوردة 3D لتناسب الموبايل */
+        transform: scale(0.78) rotateX(-22deg);
     }
+    .scene {
+        padding-bottom: 18vh; /* رفع الوردة قليلاً للأعلى لمنح مساحة للرسالة الزجاجية بالأسفل */
+    }
+    .tagline {
+        font-size: 0.95rem;
+        padding: 14px 18px;
+    }
+}
 
-    @keyframes rotateRose {
-        from { transform: scale(0.65) rotateX(-22deg) rotateY(0deg); }
-        to { transform: scale(0.65) rotateX(-22deg) rotateY(360deg); }
+@media (max-height: 650px) {
+    .rose-wrapper {
+        transform: scale(0.62) rotateX(-22deg);
     }
-    
     .end-text {
-        bottom: 3vh;
-    }
-
-    .tagline {
-        font-size: 0.88rem; /* مقاس خط مثالي ومريح لقراءة شاشات الموبايل المتنوعة */
-        padding: 14px 16px;
-        max-height: 33vh; /* حد أقصى لطول مساحة النص لمنع التمدد العشوائي */
-        overflow-y: auto; /* إضافة سكرول داخلي مرن وناعم في حال كان النص طويلاً جداً */
-    }
-    
-    .rose-emoji {
-        font-size: 26px;
-    }
-}
-
-/* حل خاص للهواتف ذات الشاشات الصغيرة جداً أو الـ Short Screens */
-@media (max-height: 660px) and (max-width: 480px) {
-    .scene {
-        padding-bottom: 38vh;
-    }
-    .rose-wrapper {
-        transform: scale(0.55) rotateX(-22deg) !important;
+        bottom: 2%;
     }
     .tagline {
-        font-size: 0.85rem;
-        max-height: 30vh;
+        font-size: 0.9rem;
+        padding: 10px 15px;
     }
 }
-
