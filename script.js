@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
             { threshold: 50, text: 'Growing digital petals...' },
             { threshold: 80, text: 'Adding velvet textures...' },
             { threshold: 95, text: 'Optimizing 3D rendering...' },
-            { threshold: 100, text: 'Ready to bloom!' }
+            { threshold: 100, text: 'جاهزة حبيبتي اضغطي تحت😁😁' }
         ];
 
         let startTimestamp = null;
