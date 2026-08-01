@@ -1,126 +1,245 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اطلبي و مبرمجك بنفذ🌹🌹</title>
-    <meta name="description" content="عنصر div واحد يتحول إلى وردة ثلاثية الأبعاد تنبض بالحياة.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@500;700&family=Fira+Code:wght@500&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fade</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    <style>
-        /* التنسيق الإضافي للرسالة لضمان ظهورها بشكل سينمائي ساحر دون التأثير على الوردة */
-        .end-text {
-            position: fixed;
-            bottom: 8%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 600px;
-            text-align: center;
-            z-index: 100;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
+    body {
+      background-color: #0d0d0d;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden;
+      color: #e0e0e0;
+    }
 
-        .end-text.show-message {
-            opacity: 1;
-        }
+    /* حاوية الوردة - تبدأ بألوان كاملة ثم تذبل */
+    .flower-container {
+      position: relative;
+      width: 200px;
+      height: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* تحويل الألوان تدريجياً للرمادي */
+      transition: filter 4s ease-in-out;
+    }
 
-        .tagline {
-            font-family: 'Cairo', sans-serif;
-            font-size: 1.15rem;
-            font-weight: 600;
-            line-height: 1.8;
-            color: #fce4ec;
-            text-shadow: 0 2px 10px rgba(244, 143, 177, 0.3), 0 0 20px rgba(0, 0, 0, 0.8);
-            background: rgba(15, 17, 19, 0.5);
-            padding: 20px 25px;
-            border-radius: 20px;
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(244, 143, 177, 0.1);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            margin: 0;
-        }
+    /* الساق */
+    .stem {
+      position: absolute;
+      bottom: 0;
+      width: 8px;
+      height: 180px;
+      background-color: #3e8e41;
+      border-radius: 4px;
+      transform-origin: bottom center;
+      transition: transform 4s ease-in-out, background-color 4s ease-in-out;
+    }
 
-        .rose-emoji {
-            font-size: 2rem;
-            animation: pulse 2s infinite ease-in-out;
-            filter: drop-shadow(0 0 10px rgba(255,0,0,0.5));
-        }
+    /* الأوراق على الساق */
+    .leaf-left, .leaf-right {
+      position: absolute;
+      width: 40px;
+      height: 20px;
+      background-color: #3e8e41;
+      border-radius: 0 20px 0 20px;
+      transition: transform 4s ease-in-out, background-color 4s ease-in-out;
+    }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-        }
-    </style>
+    .leaf-left {
+      top: 60px;
+      left: -35px;
+      transform: rotate(-20deg);
+    }
+
+    .leaf-right {
+      top: 90px;
+      right: -35px;
+      border-radius: 20px 0 20px 0;
+      transform: rotate(20deg);
+    }
+
+    /* بتلات الوردة */
+    .rose-head {
+      position: absolute;
+      top: 60px;
+      width: 80px;
+      height: 90px;
+      transform-origin: bottom center;
+      transition: transform 4s ease-in-out;
+    }
+
+    .petal {
+      position: absolute;
+      background-color: #e63946;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      transition: background-color 4s ease-in-out, transform 4s ease-in-out, opacity 4s ease-in-out;
+    }
+
+    .petal-center {
+      width: 40px;
+      height: 60px;
+      top: 15px;
+      left: 20px;
+      background-color: #b71c1c;
+      z-index: 3;
+    }
+
+    .petal-left {
+      width: 50px;
+      height: 70px;
+      top: 10px;
+      left: 5px;
+      transform: rotate(-15deg);
+      z-index: 2;
+    }
+
+    .petal-right {
+      width: 50px;
+      height: 70px;
+      top: 10px;
+      right: 5px;
+      transform: rotate(15deg);
+      z-index: 2;
+    }
+
+    /* بتلات خارجية قابلة للتساقط */
+    .petal-falling-1, .petal-falling-2 {
+      width: 35px;
+      height: 45px;
+      top: 25px;
+      z-index: 1;
+    }
+
+    .petal-falling-1 {
+      left: 0;
+      transform: rotate(-35deg);
+    }
+
+    .petal-falling-2 {
+      right: 0;
+      transform: rotate(35deg);
+    }
+
+    /* -----------------------------------
+       حالة الذبول (Withered State)
+    ----------------------------------- */
+    
+    /* سحب الألوان بالكامل */
+    .withered {
+      filter: grayscale(100%) brightness(0.6);
+    }
+
+    /* انحناء الساق */
+    .withered .stem {
+      transform: rotate(-12deg);
+      background-color: #555;
+    }
+
+    /* انحناء الرأس والأوراق */
+    .withered .rose-head {
+      transform: rotate(-25deg) translateY(10px);
+    }
+
+    .withered .leaf-left {
+      transform: rotate(-55deg) translateY(10px);
+      background-color: #444;
+    }
+
+    .withered .leaf-right {
+      transform: rotate(55deg) translateY(10px);
+      background-color: #444;
+    }
+
+    .withered .petal {
+      background-color: #4a4a4a;
+    }
+
+    .withered .petal-center {
+      background-color: #2b2b2b;
+    }
+
+    /* تساقط البتلة الأولى للمغسلة/الأرض */
+    .withered .petal-falling-1 {
+      animation: fall1 4s forwards ease-in-out;
+    }
+
+    /* تساقط البتلة الثانية */
+    .withered .petal-falling-2 {
+      animation: fall2 4.5s forwards ease-in-out 0.5s;
+    }
+
+    @keyframes fall1 {
+      0% { transform: rotate(-35deg) translate(0, 0); }
+      50% { transform: rotate(45deg) translate(-30px, 100px); }
+      100% { transform: rotate(120deg) translate(-50px, 220px); opacity: 0.3; }
+    }
+
+    @keyframes fall2 {
+      0% { transform: rotate(35deg) translate(0, 0); }
+      50% { transform: rotate(-45deg) translate(30px, 120px); }
+      100% { transform: rotate(-90deg) translate(40px, 220px); opacity: 0.2; }
+    }
+
+    /* النص التعبيري الهادئ */
+    .message {
+      margin-top: 40px;
+      font-size: 1.1rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+      color: #888;
+      opacity: 0;
+      transition: opacity 3s ease-in-out 2.5s; /* يظهر ببطء أثناء تآكل الوردة */
+      text-align: center;
+      max-width: 80%;
+      line-height: 1.6;
+    }
+
+    .message.show {
+      opacity: 1;
+    }
+  </style>
 </head>
-
 <body>
-    <div class="vignette"></div>
 
-    <div class="spotlight"></div>
-    <div class="ambient-light" id="ambientLight"></div>
-
-    <div class="trigger-overlay" id="triggerOverlay">
-        <div class="glass-card">
-            <div class="card-glow"></div>
-            <div class="rose-icon">🌹</div>
-            <h2 class="title">Love You Shahad</h2>
-            <div class="loading-bar-container">
-                <div class="loading-bar" id="loadingBar"></div>
-            </div>
-            <p class="status-text" id="statusText">جاهز للتحميل والتشغيل...</p>
-            <button class="start-button" id="startButton" disabled>
-                <span class="btn-text"> حبيبتي اكبسي هون</span>
-                <span class="btn-shine"></span>
-            </button>
-        </div>
+  <div class="flower-container" id="flower">
+    <div class="rose-head">
+      <div class="petal petal-center"></div>
+      <div class="petal petal-left"></div>
+      <div class="petal petal-right"></div>
+      <div class="petal petal-falling-1"></div>
+      <div class="petal petal-falling-2"></div>
     </div>
-
-    <div class="scene">
-        <div class="rose-wrapper" id="roseWrapper">
-            <div class="stem-group">
-                <div class="stem" id="stem">
-                    <div class="stem-highlight"></div>
-                </div>
-                <div class="thorn thorn-1" id="thorn1"></div>
-                <div class="thorn thorn-2" id="thorn2"></div>
-                <div class="leaf leaf-left" id="leafLeft">
-                    <div class="leaf-vein"></div>
-                </div>
-                <div class="leaf leaf-right" id="leafRight">
-                    <div class="leaf-vein"></div>
-                </div>
-            </div>
-
-            <div class="calyx" id="calyx"></div>
-
-            <div class="rose-head" id="roseHead">
-                <div class="rose-glow"></div>
-                <div class="rose-glow-inner"></div>
-            </div>
-        </div>
+    <div class="stem">
+      <div class="leaf-left"></div>
+      <div class="leaf-right"></div>
     </div>
+  </div>
 
-    <div class="end-text" id="endText">
-        <p class="tagline" id="tagline"></p>
-        <span class="rose-emoji">🌹</span>
-    </div>
+  <p class="message" id="textMessage">
+    بعض الأشياء تموت تدريجياً... عندما تُترك بلا عناية💔💔.
+  </p>
 
-    <div id="fallingPetals"></div>
+  <script>
+    // يبدأ التأثير بعد ثانيتين من فتح الصفحة
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        document.getElementById('flower').classList.add('withered');
+        document.getElementById('textMessage').classList.add('show');
+      }, 2000); 
+    });
+  </script>
 
-    <script src="script.js"></script>
 </body>
-
 </html>
